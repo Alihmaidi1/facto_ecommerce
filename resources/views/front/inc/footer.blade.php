@@ -35,10 +35,10 @@
             <div class="col-lg-5 col-xl-4 text-center text-md-left">
                 <div class="mt-4">
                     <a href="" class="d-block">
-                        @if(get_setting('footer_logo') != null)
-                            <img class="lazyload" src="{{ asset('assets/img/placeholder-rect.jpg') }}" data-src="{{ uploaded_asset(get_setting('footer_logo')) }}" alt="{{ env('APP_NAME') }}" height="44">
+                        @if(App\Models\header::find(1)->app_logo != null)
+                            <img style="width: 100%" class="lazyload" src="{{ asset('uploads/headers/'.App\Models\header::find(1)->app_logo) }}" data-src="{{ asset('uploads/headers/'.App\Models\header::find(1)->app_logo) }}" alt="{{ env('APP_NAME') }}" height="44">
                         @else
-                            <img class="lazyload" src="{{ asset('assets/img/placeholder-rect.jpg') }}" data-src="{{ asset('assets/img/logo.png') }}" alt="{{ env('APP_NAME') }}" height="44">
+                            <img style="width:100%" class="lazyload" src="{{ asset('assets/img/placeholder-rect.jpg') }}" data-src="{{ asset('assets/img/logo.png') }}" alt="{{ env('APP_NAME') }}" height="44">
                         @endif
                     </a>
                     <div class="my-3">
@@ -57,12 +57,12 @@
                     </div>
                     <div class="w-300px mw-100 mx-auto mx-md-0">
                         @if(1)
-                            <a href="{{ get_setting('play_store_link') }}" target="_blank" class="d-inline-block mr-3 ml-0">
+                            <a href="{{App\Models\header::find(1)->app_url}}" target="_blank" class="d-inline-block mr-3 ml-0">
                                 <img src="{{ asset('assets/img/play.png') }}" class="mx-100 h-40px">
                             </a>
                         @endif
                         @if(1)
-                            <a href="{{ get_setting('app_store_link') }}" target="_blank" class="d-inline-block">
+                            <a href="{{App\Models\header::find(1)->app_url}}" target="_blank" class="d-inline-block">
                                 <img src="{{ asset('assets/img/app.png') }}" class="mx-100 h-40px">
                             </a>
                         @endif
@@ -103,8 +103,8 @@
                         @if (1)
                             @foreach (App\Models\footernav::all() as $key => $value)
                             <li class="mb-2">
-                                <a href="{{ $value->link }}" class="opacity-50 hov-opacity-100 text-reset">
-                                    {{ $value->value }}
+                                <a href="{{ $value->value }}" class="opacity-50 hov-opacity-100 text-reset">
+                                    {{ $value->link }}
                                 </a>
                             </li>
                             @endforeach
@@ -119,7 +119,7 @@
                         {{ __('My Account') }}
                     </h4>
                     <ul class="list-unstyled">
-                        @if (1)
+                        @if (auth('user')->user()!=null)
                             <li class="mb-2">
                                 <a class="opacity-50 hov-opacity-100 text-reset" href="">
                                     {{ __('Logout') }}
@@ -159,7 +159,7 @@
                         <h4 class="fs-13 text-uppercase fw-600 border-bottom border-gray-900 pb-2 mb-4">
                             {{ __('Be a Seller') }}
                         </h4>
-                        <a href="" class="btn btn-primary btn-sm shadow-md">
+                        <a style="background: rgb(255, 17, 0)" href="{{App\Models\header::find(1)->app_url}}" class="btn btn-primary btn-sm shadow-md">
                             {{ __('Apply Now') }}
                         </a>
                     </div>
@@ -175,35 +175,37 @@
         <div class="row align-items-center">
             <div class="col-lg-4">
                 <div class="text-center text-md-left" current-verison="{{get_setting("current_version")}}">
-                    {{--  {!! get_setting('frontend_copyright_text',null,App::getLocale()) !!}  --}}
+
+                    {{$footer->copy_right}}
+
                 </div>
             </div>
             <div class="col-lg-4">
-                @if (1)
+                @if (App\Models\footer::find(1)->social_media_status)
                 <ul class="list-inline my-3 my-md-0 social colored text-center">
                     @if (1)
                     <li class="list-inline-item">
-                        <a href="" target="_blank" class="facebook"><i class="lab la-facebook-f"></i></a>
+                        <a href="{{App\Models\footer::find(1)->facebook}}" target="_blank" class="facebook"><i class="lab la-facebook-f"></i></a>
                     </li>
                     @endif
                     @if (1)
                     <li class="list-inline-item">
-                        <a href="" target="_blank" class="twitter"><i class="lab la-twitter"></i></a>
+                        <a href="{{App\Models\footer::find(1)->twitter}}" target="_blank" class="twitter"><i class="lab la-twitter"></i></a>
                     </li>
                     @endif
                     @if (1)
                     <li class="list-inline-item">
-                        <a href="" target="_blank" class="instagram"><i class="lab la-instagram"></i></a>
+                        <a href="{{App\Models\footer::find(1)->instagram}}"  class="instagram"><i class="lab la-instagram"></i></a>
                     </li>
                     @endif
                     @if (1)
                     <li class="list-inline-item">
-                        <a href="" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>
+                        <a href="{{App\Models\footer::find(1)->youtube}}" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>
                     </li>
                     @endif
                     @if (1)
                     <li class="list-inline-item">
-                        <a href="" target="_blank" class="linkedin"><i class="lab la-linkedin-in"></i></a>
+                        <a href="{{App\Models\footer::find(1)->linkedin}}" target="_blank" class="linkedin"><i class="lab la-linkedin-in"></i></a>
                     </li>
                     @endif
                 </ul>
@@ -213,11 +215,9 @@
                 <div class="text-center text-md-right">
                     <ul class="list-inline mb-0">
                         @if (1)
-                            {{--  @foreach (explode(',', get_setting('payment_method_images')) as $key => $value)
                                 <li class="list-inline-item">
-                                    <img src="{{ uploaded_asset($value) }}" height="30" class="mw-100 h-auto" style="max-height: 30px">
+                                    <img src="{{asset('default/payment.png')}}" height="30" class="mw-100 h-auto" style="max-height: 30px">
                                 </li>
-                            @endforeach  --}}
                         @endif
                     </ul>
                 </div>

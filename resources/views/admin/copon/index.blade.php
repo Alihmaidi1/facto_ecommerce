@@ -32,7 +32,10 @@
                 <tr>
                     <th data-breakpoints="lg">#</th>
                     <th>{{__('Code')}}</th>
+                    <th  data-breakpoints="lg">{{ __('name') }}</th>
+
                     <th  data-breakpoints="lg">{{ __('Type') }}</th>
+
                     <th data-breakpoints="lg">{{ __('Value') }}</th>
                     <th data-breakpoints="lg">{{ __('Offer Start At') }}</th>
                     <th data-breakpoints="lg">{{ __('Offer End At') }}</th>
@@ -50,6 +53,8 @@
                     <tr>
                         <td style="vertical-align: middle">{{ ($key+1) + ($copons->currentPage() - 1)*$copons->perPage() }}</td>
                         <td style="vertical-align: middle">{{ $copon->code }}</td>
+                        <td style="vertical-align: middle">{{ $copon->name }}</td>
+
                         <td style="vertical-align: middle">{{ $copon->type }}</td>
                         <td style="vertical-align: middle">{{ $copon->value }}</td>
                         <td style="vertical-align: middle">{{ $copon->date_start_at }}</td>

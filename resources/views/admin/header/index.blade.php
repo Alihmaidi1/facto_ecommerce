@@ -29,6 +29,36 @@
                             </div>
 						</div>
 	                </div>
+
+                    <div class="form-group row">
+	                    <label class="col-md-3 col-from-label">{{ __('App Logo') }}</label>
+						<div class="col-md-8">
+		                    <div class=" input-group " data-toggle="aizuploader" data-type="image">
+		                        <div onclick="clickfile1()" class="input-group-prepend">
+		                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ __('Browse') }}</div>
+		                        </div>
+		                        <div onclick="clickfile1()" class="form-control file-amount">{{ __('Choose File') }}</div>
+                                <input  id="file1" type="file" class="d-none" name="app_logo"/>
+                            </div>
+						</div>
+	                </div>
+
+                    <div class="form-group row">
+
+	                    <label class="col-md-3 col-from-label">{{ __('App Url') }}</label>
+						<div class="col-md-8">
+		                    <div class=" input-group " data-toggle="aizuploader" data-type="image">
+		                        <div  class="input-group-prepend">
+		                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ __('App Url') }}</div>
+		                        </div>
+		                        <input placeholder="Enter App Url" class="form-control file-amount" value="{{$header->app_url}}" name="app_url"/>
+                            </div>
+						</div>
+                    </div>
+
+
+
+
                     <div class="form-group row">
 						<label class="col-md-3 col-from-label">{{__('Show Language Switcher?')}}</label>
 						<div class="col-md-8">
@@ -131,6 +161,12 @@
         file.click();
     }
 
+
+    let file1=document.getElementById('file1');
+    function clickfile1(){
+
+        file1.click();
+    }
 
 </script>
 

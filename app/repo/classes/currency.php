@@ -32,7 +32,8 @@ class currency implements currencyinterface{
 
             "name"=>$request->name,
             "code"=>$request->code,
-            "active"=>$request->active
+            "active"=>$request->active,
+            "value_in_dular"=>$request->value_in_dular
         ]);
 
         return $currency;
@@ -57,6 +58,7 @@ class currency implements currencyinterface{
         $currency=ModelsCurrency::findOrFail($request->id);
         $currency->name=$request->name;
         $currency->code=$request->code;
+        $currency->value_in_dular=$request->value_in_dular;
         $currency->active=$request->active;
         $currency->save();
 

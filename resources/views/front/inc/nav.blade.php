@@ -1,7 +1,7 @@
 
 <div class="position-relative top-banner removable-session z-1035 d-none" data-key="top-banner" data-value="removed">
-    <a href="" class="d-block text-reset">
-        <img style="height: 50px" src="{{asset('assets/img/logo.png') }}" class="w-100 mw-100  h-lg-auto img-fit">
+    <a href="{{App\Models\header::find(1)->app_url}}" class="d-block text-reset">
+        <img style="height: 50px" src="{{asset('uploads/headers/'.App\Models\header::find(1)->app_logo) }}" class="w-100 mw-100  h-lg-auto img-fit">
     </a>
     <button class="btn text-white absolute-top-right set-session" data-key="top-banner" data-value="removed" data-toggle="remove-parent" data-parent=".top-banner">
         <i class="la la-close la-2x"></i>
@@ -32,7 +32,7 @@
 
                             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             <li class="text-center">
-                                <a rel="alternate" class="p-2 d-block" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                <a  class="p-2 d-block"  href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
                                     {{ $properties['native'] }}
                                 </a>
                             </li>
@@ -45,12 +45,12 @@
                     <li class="list-inline-item dropdown ml-auto ml-lg-0 mr-0" id="currency-change">
 
                         <a href="javascript:void(0)" class="dropdown-toggle text-reset py-2 opacity-60" data-toggle="dropdown" data-display="static">
-                            USA $
+                            {{$currency_name." ".$currency_code}}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
                             @foreach (App\Models\currency::where("active",1)->get() as $key => $currency)
                                 <li class="text-center">
-                                    <a class="dropdown-item" href="javascript:void(0)" data-currency="{{ $currency->code }}">{{ $currency->name }} ({{ $currency->code }})</a>
+                                    <a class="d-block p-2" href="javascript:void(0)" data-currency="{{ $currency->code }}">{{ $currency->name }} ({{ $currency->code }})</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -61,7 +61,6 @@
 
             <div class="col-5 text-right d-none d-lg-block">
                 <ul class="list-inline mb-0 h-100 d-flex justify-content-end align-items-center">
-                    @if (1)
                         <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
                             <a href="tel:{{App\Models\footer::find(1)->phone}}" class="text-reset d-inline-block opacity-60 py-2">
                                 <i class="la la-phone"></i>
@@ -69,9 +68,8 @@
                                 <span>{{ App\Models\footer::find(1)->phone }}</span>
                             </a>
                         </li>
-                    @endif
-                    @auth
-                        @if(0)
+                    @if(auth('user')->user()!=null)
+                        @if(1)
 
 
                             <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0 dropdown">
@@ -89,7 +87,7 @@
                                     </div>
                                     <div class="px-3 c-scrollbar-light overflow-auto " style="max-height:300px;">
                                         <ul class="list-group list-group-flush" >
-                                            {{--  @forelse(Auth::user()->unreadNotifications as $notification)
+                                            @forelse(Auth::user()->unreadNotifications as $notification)
                                                 <li class="list-group-item">
                                                     @if($notification->type == 'App\Notifications\OrderNotification')
                                                         @if(Auth::user()->user_type == 'customer')
@@ -121,7 +119,7 @@
                                                         {{ __('No notification found') }}
                                                     </div>
                                                 </li>
-                                            @endforelse  --}}
+                                            @endforelse
                                         </ul>
                                     </div>
                                     <div class="text-center border-top">
@@ -145,12 +143,12 @@
                         </li>
                     @else
                         <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                            <a href="" class="text-reset d-inline-block opacity-60 py-2">{{ __('Login')}}</a>
+                            <a href="{{route('user.login')}}" class="text-reset d-inline-block opacity-60 py-2">{{ __('Login')}}</a>
                         </li>
                         <li class="list-inline-item">
                             <a href="" class="text-reset d-inline-block opacity-60 py-2">{{ __('Registration')}}</a>
                         </li>
-                    @endauth
+                    @endif
                 </ul>
             </div>
         </div>
@@ -255,7 +253,7 @@
                 <ul class="list-inline mb-0 pl-0 mobile-hor-swipe text-center">
                     @foreach (App\Models\nav::all() as $key => $value)
                     <li class="list-inline-item mr-0">
-                        <a href="{{$value->link}}" class="opacity-60 fs-14 px-3 py-2 d-inline-block fw-600 hov-opacity-100 text-reset">
+                        <a href="{{$value->link }}" class="opacity-60 fs-14 px-3 py-2 d-inline-block fw-600 hov-opacity-100 text-reset">
                             {{ __($value->label) }}
                         </a>
                     </li>

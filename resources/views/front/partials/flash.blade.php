@@ -7,7 +7,7 @@
                     <h3 class="h5 fw-700 mb-0">
                         <span  class="border-bottom  border-width-2 pb-3 d-inline-block">{{ __('Flash Sale') }}</span>
                     </h3>
-                    <div class="aiz-count-down ml-auto ml-lg-3 align-items-center" data-date="5434343"></div>
+                    <div class="aiz-count-down ml-auto ml-lg-3 align-items-center"  style="background:red;color:white" data-date="{{ date('Y/m/d H:i:s', strtotime($flash_deal->date_end_at)) }}"></div>
                     <a href="" style="background: rgb(240, 40, 40)" class="ml-auto mr-0 btn btn-primary btn-sm shadow-md  w-md-auto">{{ __('View More') }}</a>
                 </div>
 

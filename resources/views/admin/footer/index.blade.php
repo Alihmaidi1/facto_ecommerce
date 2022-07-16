@@ -110,13 +110,46 @@
     							<div class="form-group">
     								<label>{{ __('Title') }} ({{ __('Translatable') }})</label>
     								<input type="hidden" name="" value="widget_one">
-    								<input type="text" class="form-control" placeholder="Widget title" name="navtitle" value="">
+    								<input type="text" value="{{$footer->navtitle}}" class="form-control" placeholder="Widget title" name="navtitle" value="">
     							</div>
     			                <div class="form-group">
     								<label>{{ __('Links') }} - ({{ __('Translatable') }} {{ __('Label') }})</label>
     								<div class="w3-links-target">
     									<input type="hidden" name="" value="widget_one_labels">
     									<input type="hidden" name="types[]" value="widget_one_links">
+
+
+
+
+                                        @foreach(App\Models\footernav::all() as $nav)
+
+                                        <div class="row gutters-5">
+    										<div class="col-4">
+    											<div class="form-group">
+    												<input type="text" value="{{$nav->link}}" class="form-control" placeholder="{{__('Label')}}" name="widget_one_labels[]">
+    											</div>
+    										</div>
+    										<div class="col">
+    											<div class="form-group">
+    												<input type="text" value="{{$nav->value}}" class="form-control" placeholder="http://" name="widget_one_links[]">
+    											</div>
+    										</div>
+    										<div class="col-auto">
+    											<button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".row">
+    												<i class="las la-times"></i>
+    											</button>
+    										</div>
+    									</div>
+
+
+                                        @endforeach
+
+
+
+
+
+
+
 
     								</div>
     								<button
@@ -170,6 +203,7 @@
                         <div class="form-group">
                   			<label>{{ __('Copyright Text') }} ({{ __('Translatable') }})</label>
                   			<textarea class="aiz-text-editor form-control" name="copy_right" data-buttons='[["font", ["bold", "underline", "italic"]],["insert", ["link"]],["view", ["undo","redo"]]]' placeholder="Type.." data-min-height="150">
+                            {{$footer->copy_right}}
                             </textarea>
                             @error('copy_right')
                             <span style="color:red;font-size:11px">{{$message}}</span>
@@ -188,7 +222,13 @@
                       <label class="col-md-2 col-from-label">{{__('Show Social Links?')}}</label>
                       <div class="col-md-9">
                         <label class="aiz-switch aiz-switch-success mb-0">
-                          <input type="checkbox" name="social_status" >
+                          <input type="checkbox"
+
+                          @if($footer->social_media_status==1)
+                            checked
+                          @endif
+
+                          name="social_status" >
                           <span></span>
                         </label>
                       </div>
@@ -199,7 +239,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="lab la-facebook-f"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="http://" name="facebook" value="{{ get_setting('facebook_link')}}">
+                            <input type="text" value="{{$footer->facebook}}" class="form-control" placeholder="http://" name="facebook" value="{{ get_setting('facebook_link')}}">
                             @error('facebook')
                             <span style="color:red;font-size:11px">{{$message}}</span>
                             @enderror
@@ -209,7 +249,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="lab la-twitter"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="http://" name="twitter" value="{{ get_setting('twitter_link')}}">
+                            <input type="text" value="{{$footer->twitter}}" class="form-control" placeholder="http://" name="twitter" value="{{ get_setting('twitter_link')}}">
                             @error('twitter')
                             <span style="color:red;font-size:11px">{{$message}}</span>
                             @enderror
@@ -220,7 +260,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="lab la-instagram"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="http://" name="instagram" value="{{ get_setting('instagram_link')}}">
+                            <input type="text"  value="{{$footer->instagram}}" class="form-control" placeholder="http://" name="instagram" value="{{ get_setting('instagram_link')}}">
                             @error('instagram')
                             <span style="color:red;font-size:11px">{{$message}}</span>
                             @enderror
@@ -230,7 +270,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="lab la-youtube"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="http://" name="youtube" value="{{ get_setting('youtube_link')}}">
+                            <input type="text" value="{{$footer->youtube}}" class="form-control" placeholder="http://" name="youtube" value="{{ get_setting('youtube_link')}}">
                             @error('youtube')
                             <span style="color:red;font-size:11px">{{$message}}</span>
                             @enderror
@@ -240,7 +280,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="http://" name="linkedin" value="{{ get_setting('linkedin_link')}}">
+                            <input type="text" value="{{$footer->linkedin}}" class="form-control" placeholder="http://" name="linkedin" value="{{ get_setting('linkedin_link')}}">
                             @error('linkedin')
                             <span style="color:red;font-size:11px">{{$message}}</span>
                             @enderror

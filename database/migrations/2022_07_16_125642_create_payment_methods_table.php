@@ -13,16 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('headers', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->boolean("language");
-            $table->boolean("currency");
-            $table->boolean("fix");
-            $table->string("logo")->nullable();
-            $table->string("app_logo")->nullable();
-            $table->string("app_url")->nullable();
-
-
+            $table->boolean("status");
+            $table->string("name");
             $table->timestamps();
         });
     }
@@ -34,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('headers');
+        Schema::dropIfExists('payment_methods');
     }
 };

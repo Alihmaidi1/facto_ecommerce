@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("code");
             $table->boolean("is_default")->default(0);
+            $table->float("value_in_dular");
             $table->boolean("active");
             $table->timestamps();
         });

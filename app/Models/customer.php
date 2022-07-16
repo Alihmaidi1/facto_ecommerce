@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class header extends Model
+class customer extends Model
 {
     use HasFactory;
 
-    public $fillable=["language","currency","fix","logo","app_logo","app_url"];
-
+    public $fillable=["email","password","phone","name","logo"];
 }

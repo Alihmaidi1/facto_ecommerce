@@ -6,7 +6,7 @@
         </a>
     </div>
     <ul class="list-unstyled categories no-scrollbar py-2 mb-0 text-left">
-        @foreach (App\Models\category::where("show_in_header",1)->where("status",1)->where("parent",null)->get() as $key => $category)
+        @foreach (App\Models\category::where("show_in_header",1)->where("status",1)->get() as $key => $category)
             <li class="category-nav-element" data-id="{{ $category->id }}">
                 <a  class="text-truncate text-reset py-2 px-3 d-block">
                     <img

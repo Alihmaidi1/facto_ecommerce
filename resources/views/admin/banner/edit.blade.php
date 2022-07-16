@@ -52,9 +52,7 @@
                             <select class="select2 form-control aiz-selectpicker" name="type">
 
                                 <option @if($banner->type==0) selected @endif value="0">Show in Header</option>
-                                <option @if($banner->type==1) selected @endif value="1">Show in All Category</option>
-                                <option @if($banner->type==2) selected @endif value="2">Show in One Category</option>
-                                <option @if($banner->type==3) selected @endif value="3">Show in One Product</option>
+                                <option @if($banner->type==1) selected @endif value="1">Show In Footer</option>
 
 
                             </select>

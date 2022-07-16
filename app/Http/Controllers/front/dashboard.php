@@ -50,15 +50,18 @@ class dashboard extends Controller
             $banners=banner::where("status",1)->orderBy("rank","DESC")->get();
             $new_products=product::orderBy("id","DESC")->paginate(10);
             $nav_footer=footernav::all();
-            $product_today_hot=copon::where("date_end_at",">=",date("Y-m-d"))->where("name","hot")->first()->products;
+            $product_today_hot=copon::where("date_end_at",">=",date("Y-m-d"))->where("name",strtoupper("hot"))->first();
             $best_selling_products=product::orderBy("selling_number","DESC")->paginate(10);
             $flashs=copon::where("show_in_main",1)->get();
-            return view("front.index",compact("flashs","best_selling_products","product_today_hot","category_in_main","nav_footer","sliders","categorys","products","footer","Category_show_in_header","navs","brands","top_category","banners","new_products"));
+            $banner_in_header=\App\Models\banner::where("type",0)->get();
+            $banner_in_footer=\App\Models\banner::where("type",1)->get();
+            return view("front.index",compact("flashs","best_selling_products","product_today_hot","category_in_main","nav_footer","sliders","categorys","products","footer","Category_show_in_header","navs","brands","top_category","banner_in_header","banner_in_footer","new_products"));
 
 
         }catch(\Exception $ex){
 
-            return dd($ex->getMessage());
+            return $ex->getMessage();
+            toastr()->error("we Have Error");
         }
 
     }

@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('headers', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->boolean("language");
-            $table->boolean("currency");
-            $table->boolean("fix");
+            $table->string("email");
+            $table->string("password");
+            $table->string("phone");
+            $table->string("name");
             $table->string("logo")->nullable();
-            $table->string("app_logo")->nullable();
-            $table->string("app_url")->nullable();
-
 
             $table->timestamps();
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('headers');
+        Schema::dropIfExists('customers');
     }
 };

@@ -33,6 +33,29 @@ class header implements headerinterface{
             $name=$header->logo;
         }
 
+
+
+
+        if($request->hasFile("app_logo")){
+
+            if($header->app_logo!=null){
+
+                unlink(public_path("uploads/headers/".$header->app_logo));
+
+            }
+
+            $file1=$request->file("app_logo");
+            $name1=rand(0,19999).".".$file1->extension();
+            Storage::disk("admin")->putFileAs("headers",$file1,$name1);
+
+        }else{
+
+            $name1=$header->app_logo;
+        }
+
+
+
+
         if(isset($request->show_language_switcher)){
 
             $language=1;
@@ -75,7 +98,9 @@ class header implements headerinterface{
             "language"=>$language,
             "currency"=>$currency,
             "fix"=>$fix,
-            "logo"=>$name
+            "logo"=>$name,
+            "app_logo"=>$name1,
+            "app_url"=>$request->app_url
 
 
         ]);

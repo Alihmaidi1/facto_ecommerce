@@ -1,3 +1,19 @@
+
+    @php
+    if(Session::has("currency_code")){
+
+        $currency_code=Session::get("currency_code");
+        $currency_name=Session::get("currency_name");
+
+    }else{
+
+        $currency_code=App\Models\currency::where("is_default",1)->first()->code;
+        $currency_name=App\Models\currency::where("is_default",1)->first()->name;
+
+    }
+
+    @endphp
+
 @extends('front.layouts.app')
 
 @section('content')
@@ -9,7 +25,7 @@
                     @include('front.partials.category_menu')
                 </div>
 
-                <div class="@if(1) col-lg-7 @else col-lg-9 @endif">
+                <div class="@if($product_today_hot!=null) col-lg-7 @else col-lg-9 @endif">
                         <div class="aiz-carousel dots-inside-bottom mobile-img-auto-height" data-arrows="true" data-dots="true" data-autoplay="true">
                             @foreach ($sliders as $key => $value)
                                 <div class="carousel-box">
@@ -51,6 +67,8 @@
                     @endif
                 </div>
 
+                @if($product_today_hot!=null)
+
                 <div  class="col-lg-2 order-3 mt-3 mt-lg-0">
                     <div class="bg-white rounded shadow-sm">
                         <div class="bg-soft-primary rounded-top p-3 d-flex align-items-center justify-content-center">
@@ -61,8 +79,7 @@
                         </div>
                         <div style="background:rgb(235, 37, 2)" class="c-scrollbar-light overflow-auto h-lg-400px p-2  rounded-bottom">
                             <div class="gutters-5 lg-no-gutters row row-cols-2 row-cols-lg-1">
-                        @if($product_today_hot!=null)
-                        @foreach ($product_today_hot as $key => $product)
+                        @foreach ($product_today_hot->products as $key => $product)
                                 @if ($product != null)
                                 <div class="col mb-2">
                                     <a href="" class="d-block p-2 text-reset bg-white h-100 rounded">
@@ -80,8 +97,16 @@
                                             </div>
                                             <div class="col-xxl">
                                                 <div class="fs-16">
-                                                    <span style="color: rgb(255, 51, 0)" class="d-block  fw-600">{{ $product->currency->code." ".($product->price)}}</span>
-                                                        <del class="d-block opacity-70">{{$product->currency->code." ".$product->price}}</del>
+
+                                                    @if($product_today_hot->type=="precent")
+                                                    <span style="color: rgb(255, 51, 0)" class="d-block  fw-600">{{ $currency_code." ".($product->price-$product->price*$product_today_hot->value)}}</span>
+                                                    @else
+                                                    <span style="color: rgb(255, 51, 0)" class="d-block  fw-600">{{ $currency_code." ".($product->price-$product_today_hot->value)}}</span>
+
+                                                    @endif
+
+
+                                                    <del class="d-block opacity-70">{{$currency_code." ".convert_currency($product->price,$product->currency->value_in_dular,$currency_code)}}</del>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,12 +114,11 @@
                                 </div>
                                 @endif
                             @endforeach
-                        @endif
                         </div>
                         </div>
                     </div>
                 </div>
-
+                @endif
 
             </div>
         </div>
@@ -104,7 +128,7 @@
     <div class="mb-4">
         <div class="container">
             <div class="row gutters-10">
-                @foreach ($banners as $key => $banner)
+                @foreach ($banner_in_header as $key => $banner)
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="mb-3 mb-lg-0">
                             <a href="{{$banner->url}}" class="d-block text-reset">
@@ -124,28 +148,34 @@
 
 
 
+
+
+
     <div id="section_newest">
-            <section class="mb-4">
-                <div class="container">
-                    <div class="px-2 py-4 px-md-4 py-md-3 bg-white shadow-sm rounded">
-                        <div class="d-flex mb-3 align-items-baseline border-bottom">
-                            <h3 class="h5 fw-700 mb-0">
-                                <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">
-                                    {{ __('New Products') }}
-                                </span>
-                            </h3>
+        <section class="mb-4">
+            <div class="container">
+                <div class="px-2 py-4 px-md-4 py-md-3 bg-white shadow-sm rounded">
+                    <div class="d-flex mb-3 align-items-baseline border-bottom">
+                        <h3 class="h5 fw-700 mb-0">
+                            <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">
+                                {{ __('New Products') }}
+                            </span>
+                        </h3>
+
+                    </div>
+                    <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="6" data-xl-items="5" data-lg-items="4"  data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true'>
+
+                        @foreach ($new_products as $key => $new_product)
+                        <div class="carousel-box">
+                            @include('front.partials.product_box_1',['product' => $new_product])
                         </div>
-                        <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="6" data-xl-items="5" data-lg-items="4"  data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true'>
-                            @foreach ($new_products as $key => $new_product)
-                            <div class="carousel-box">
-                                @include('front.partials.product_box_1',['product' => $new_product])
-                            </div>
-                            @endforeach
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-            </section>
-    </div>
+            </div>
+        </section>
+</div>
+
 
 
 
@@ -202,78 +232,10 @@
            @endforeach
 
 
-    {{--  <!-- Auction Product -->
-    @if(addon_is_activated('auction'))
-        <div id="auction_products">
-
-        </div>
-    @endif  --}}
-
-
-
-
-
-    {{-- Classified Product --}}
-    {{--  @if(1)
-        @php
-            $classified_products = \App\Models\CustomerProduct::where('status', '1')->where('published', '1')->take(10)->get();
-        @endphp
-           @if (1)
-               <section class="mb-4">
-                   <div class="container">
-                       <div class="px-2 py-4 px-md-4 py-md-3 bg-white shadow-sm rounded">
-                            <div class="d-flex mb-3 align-items-baseline border-bottom">
-                                <h3 class="h5 fw-700 mb-0">
-                                    <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">{{ __('Classified Ads') }}</span>
-                                </h3>
-                                <a href="" class="ml-auto mr-0 btn btn-primary btn-sm shadow-md">{{ __('View More') }}</a>
-                            </div>
-                           <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="6" data-xl-items="5" data-lg-items="4"  data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true'>
-                               @foreach ($classified_products as $key => $classified_product)
-                                   <div class="carousel-box">
-                                        <div class="aiz-card-box border border-light rounded hov-shadow-md my-2 has-transition">
-                                            <div class="position-relative">
-                                                <a href="{{ route('customer.product', $classified_product->slug) }}" class="d-block">
-                                                    <img
-                                                        class="img-fit lazyload mx-auto h-140px h-md-210px"
-                                                        src="{{ asset('assets/img/placeholder.jpg') }}"
-                                                        data-src="{{ uploaded_asset($classified_product->thumbnail_img) }}"
-                                                        alt="{{ $classified_product->getTranslation('name') }}"
-                                                        onerror="this.onerror=null;this.src='{{ asset('assets/img/placeholder.jpg') }}';"
-                                                    >
-                                                </a>
-                                                <div class="absolute-top-left pt-2 pl-2">
-                                                    @if($classified_product->conditon == 'new')
-                                                       <span class="badge badge-inline badge-success">{{__('new')}}</span>
-                                                    @elseif($classified_product->conditon == 'used')
-                                                       <span class="badge badge-inline badge-danger">{{__('Used')}}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="p-md-3 p-2 text-left">
-                                                <div class="fs-15 mb-1">
-                                                    <span class="fw-700 text-primary">{{ single_price($classified_product->unit_price) }}</span>
-                                                </div>
-                                                <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
-                                                    <a href="{{ route('customer.product', $classified_product->slug) }}" class="d-block text-reset">{{ $classified_product->getTranslation('name') }}</a>
-                                                </h3>
-                                            </div>
-                                       </div>
-                                   </div>
-                               @endforeach
-                           </div>
-                       </div>
-                   </div>
-               </section>
-           @endif
-       @endif  --}}
-
-    {{-- Banner Section 2 --}}
-
     <div class="mb-4">
         <div class="container">
             <div class="row gutters-10">
-                @foreach ($banners as $key => $banner)
+                @foreach ($banner_in_footer as $key => $banner)
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="mb-3 mb-lg-0">
                             <a href="{{$banner->url}}" class="d-block text-reset">

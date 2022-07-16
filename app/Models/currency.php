@@ -9,7 +9,7 @@ class currency extends Model
 {
     use HasFactory;
 
-    public $fillable=["name","code","active","is_default"];
+    public $fillable=["name","code","active","is_default","value_in_dular"];
 
 
 

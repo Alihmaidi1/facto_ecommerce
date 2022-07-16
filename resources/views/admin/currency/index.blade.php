@@ -73,6 +73,7 @@
                     <th data-breakpoints="lg">#</th>
                     <th>{{__('Currency name')}}</th>
                     <th data-breakpoints="lg">{{__('Currency code')}}</th>
+                    <th data-breakpoints="lg">{{__('Amount In Dular')}}</th>
                     <th data-breakpoints="lg">{{__('Status')}}</th>
                     <th data-breakpoints="lg">{{__('is Default')}}</th>
                     <th class="text-right">{{__('Options')}}</th>
@@ -84,6 +85,8 @@
                         <td>{{ ($key+1) + ($currencys->currentPage() - 1)*$currencys->perPage() }}</td>
                         <td>{{$currency->name}}</td>
                         <td>{{$currency->code}}</td>
+                        <td>{{$currency->value_in_dular}}</td>
+
                         <td>
 
                         {{($currency->active==1)?"Yes":"No"}}

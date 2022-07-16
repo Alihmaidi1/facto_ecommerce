@@ -46,7 +46,7 @@ class header extends Controller
         }catch(\Exception $ex){
 
 
-            toastr()->error("We Have Error");
+            toastr()->error($ex->getMessage());
             return redirect()->back()->withErrors(['message'=>$ex->getMessage()]);
 
         }

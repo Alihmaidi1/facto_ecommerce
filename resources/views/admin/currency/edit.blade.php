@@ -30,6 +30,19 @@
                 @enderror
             </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-from-label" for="code">{{__('Value In Dular')}}</label>
+            <div class="col-sm-10">
+                <input type="text" value="{{$currency->value_in_dular}}" placeholder="{{__('Value In Dular')}}" id="code" name="value_in_dular" class="form-control" required>
+
+
+                @error('code')
+                <span style="color:red;font-size:11px">{{$message}}</span>
+                @enderror
+            </div>
+        </div>
+
         <div class="form-group row">
             <label class="col-sm-2 col-from-label" for="exchange_rate">{{__('Status')}}</label>
             <div class="col-sm-10">

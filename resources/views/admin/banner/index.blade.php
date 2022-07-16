@@ -53,9 +53,7 @@
                         <td style="vertical-align: middle">
 
                             @if($banner->type==0) Show In Header @endif
-                            @if($banner->type==1) Show In All Category @endif
-                            @if($banner->type==2) Show In One Category @endif
-                            @if($banner->type==3) Show In One Product @endif
+                            @if($banner->type==1) Show In Footer @endif
 
                         </td>
 

@@ -51,9 +51,7 @@
                             <select class="select2 form-control aiz-selectpicker" name="type">
 
                                 <option value="0">Show in Header</option>
-                                <option value="1">Show in All Category</option>
-                                <option value="2">Show in One Category</option>
-                                <option value="3">Show in One Product</option>
+                                <option value="1">Show In Footer</option>
 
 
                             </select>

@@ -56,3 +56,13 @@ function renderStarRating($rating, $maxRating = 5)
         $html .= str_repeat($emptyStar, $emptyStarCount);
         echo $html;
     }
+
+
+
+    function convert_currency($price,$currency_value,$code){
+
+        $dular_value=$price/$currency_value;
+        $currency=App\Models\currency::where("code",$code)->first();
+        return $dular_value/$currency->value_in_dular;
+
+    }

@@ -8,6 +8,7 @@ use App\repo\interfaces\currency as currencyinterface;
 use App\http\Requests\admin\currency\store as storerequest;
 use App\http\Requests\admin\currency\update as updaterequest;
 use App\Models\currency as ModelsCurrency;
+use Session;
 
 class currency extends Controller
 {
@@ -131,5 +132,16 @@ class currency extends Controller
 
 
     }
+
+
+    public function change_in_user(Request $request){
+
+        $currency=ModelsCurrency::where("code",$request->code)->first();
+        Session::put("currency_code",$currency->code);
+        Session::put("currency_name",$currency->name);
+        Session::put("currency_value_in_dular",$currency->code);
+
+    }
+
 
 }
